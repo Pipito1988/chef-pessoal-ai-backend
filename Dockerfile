@@ -19,12 +19,12 @@ RUN npm run build
 # Remover dependências de desenvolvimento
 RUN npm prune --production
 
-# Expor porta
-EXPOSE 3001
+# Expor porta (Railway define automaticamente)
+EXPOSE $PORT
 
 # Definir variáveis de ambiente padrão
 ENV NODE_ENV=production
-ENV PORT=3001
+# Railway define PORT automaticamente
 
 # Comando para iniciar a aplicação
 CMD ["node", "dist/index.js"]
