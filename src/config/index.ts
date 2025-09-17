@@ -16,7 +16,7 @@ export const config = {
   // CORS
   corsOrigin: process.env.CORS_ORIGIN 
     ? process.env.CORS_ORIGIN.split(',').map(url => url.trim())
-    : ['http://localhost:5173'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'https://chefeai.netlify.app'],
   
   // Bcrypt
   saltRounds: 12,
