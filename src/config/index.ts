@@ -14,7 +14,9 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL || 'postgresql://username:password@localhost:5432/chef_pessoal_ai',
   
   // CORS
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  corsOrigin: process.env.CORS_ORIGIN 
+    ? process.env.CORS_ORIGIN.split(',').map(url => url.trim())
+    : ['http://localhost:5173'],
   
   // Bcrypt
   saltRounds: 12,
