@@ -17,6 +17,35 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
+// CORS - Manual middleware para garantir funcionamento
+app.use((req, res, next) => {
+  const allowedOrigins = config.corsOrigin;
+  const origin = req.headers.origin;
+  
+  console.log(`🌐 CORS Request - Origin: ${origin}, Allowed: ${JSON.stringify(allowedOrigins)}`);
+  
+  // Se origin está na lista de permitidos, ou se é wildcard
+  if (allowedOrigins.includes('*') || (origin && allowedOrigins.includes(origin))) {
+    res.header('Access-Control-Allow-Origin', origin || '*');
+    console.log(`✅ CORS Allowed for: ${origin}`);
+  } else {
+    console.log(`❌ CORS Blocked for: ${origin}`);
+  }
+  
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  // Responder a preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+    return;
+  }
+  
+  next();
+});
+
+// CORS library como backup
 app.use(cors({
   origin: config.corsOrigin,
   credentials: true,
